@@ -1,0 +1,19 @@
+{
+  "total_duration": 8.3871875,
+  "sample_rate": 16000,
+  "boy": {
+    "start": 0.4,
+    "end": 1.4681250000000001,
+    "json": "lip_sync_boy.json"
+  },
+  "grandfather": {
+    "start": 2.068125,
+    "end": 3.6470625000000005,
+    "json": "lip_sync_grandfather.json"
+  },
+  "cat": {
+    "start": 4.1970625,
+    "end": 7.587187500000001,
+    "json": "lip_sync_cat.json"
+  }
+}
