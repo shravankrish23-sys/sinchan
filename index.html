@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2D Character Rigged Lip Sync & Blink Studio</title>
+  <title>Sinchan, Grandpa & Cat - 2D Multi-Character Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at 50% 15%, #181926 0%, #0c0d14 100%);
-      --card-bg: rgba(26, 27, 38, 0.8);
+      --bg-dark: #0f111a;
+      --bg-card: rgba(22, 25, 38, 0.85);
       --card-border: rgba(255, 255, 255, 0.08);
-      --accent: #6366f1;
-      --accent-hover: #4f46e5;
-      --accent-glow: rgba(99, 102, 241, 0.35);
+      --accent-sinchan: #f43f5e;
+      --accent-sinchan-glow: rgba(244, 63, 94, 0.35);
+      --accent-gf: #eab308;
+      --accent-gf-glow: rgba(234, 179, 8, 0.35);
+      --accent-cat: #06b6d4;
+      --accent-cat-glow: rgba(6, 182, 212, 0.35);
+      --accent-primary: #8b5cf6;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --viseme-active: #10b981;
     }
 
     * {
@@ -28,448 +31,376 @@
     }
 
     body {
-      background: var(--bg-gradient);
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f111a 70%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px 20px;
+      padding: 40px 20px;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 35px;
+    }
+
+    .header .badge {
+      display: inline-block;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #c4b5fd;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     .header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #a5b4fc, #6366f1, #38bdf8);
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fda4af, #f43f5e, #eab308, #38bdf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .header p {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 1.1rem;
+      max-width: 650px;
+      margin: 0 auto;
     }
 
-    .main-container {
-      display: flex;
-      gap: 30px;
-      max-width: 1200px;
-      width: 100%;
-      align-items: flex-start;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .stage-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    canvas {
-      border-radius: 14px;
-      background: #000;
-      width: 360px;
-      height: 540px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .status-badge {
-      position: absolute;
-      top: 32px;
-      right: 32px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--viseme-active);
-      box-shadow: 0 0 8px var(--viseme-active);
-    }
-
-    .controls-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      flex: 1;
-      min-width: 340px;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 12px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 14px 20px;
-      border-radius: 12px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-      box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      border: 1px solid var(--card-border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    .visemes-panel {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 14px;
-      padding: 15px;
-      border: 1px solid var(--card-border);
-    }
-
-    .visemes-panel h3 {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .viseme-grid {
+    .grid-container {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1.3fr 1fr;
+      gap: 30px;
+      max-width: 1250px;
+      width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-section h2, .characters-section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
       gap: 10px;
     }
 
-    .viseme-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-      transition: all 0.15s ease;
-    }
-
-    .viseme-box.active {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: var(--viseme-active);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-      transform: scale(1.05);
-    }
-
-    .viseme-box .v-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-
-    .viseme-box .v-sound {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .slider-group label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    input[type=range] {
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-
-    .video-card {
-      width: 100%;
-      max-width: 900px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 25px;
-      margin-top: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .video-card h2 {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
+    .video-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     video {
       width: 100%;
-      max-height: 480px;
+      height: auto;
+      display: block;
+    }
+
+    .timeline-bar {
+      margin-top: 25px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid var(--card-border);
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline-tracks {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .track-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .track-name {
+      width: 85px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .track-name.sinchan { color: #fb7185; }
+    .track-name.gf { color: #facc15; }
+    .track-name.cat { color: #38bdf8; }
+
+    .track-bar-container {
+      flex: 1;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .track-segment {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .track-segment.sinchan {
+      left: 4.7%;
+      width: 12.7%;
+      background: var(--accent-sinchan);
+      box-shadow: 0 0 10px var(--accent-sinchan-glow);
+    }
+
+    .track-segment.gf {
+      left: 24.6%;
+      width: 18.8%;
+      background: var(--accent-gf);
+      color: #000;
+      box-shadow: 0 0 10px var(--accent-gf-glow);
+    }
+
+    .track-segment.cat {
+      left: 50.0%;
+      width: 40.4%;
+      background: var(--accent-cat);
+      color: #000;
+      box-shadow: 0 0 10px var(--accent-cat-glow);
+    }
+
+    .character-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .char-card {
+      display: flex;
+      gap: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px;
+      transition: all 0.25s ease;
+      align-items: center;
+    }
+
+    .char-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .char-card.sinchan:hover { border-color: var(--accent-sinchan); box-shadow: 0 8px 25px var(--accent-sinchan-glow); }
+    .char-card.gf:hover { border-color: var(--accent-gf); box-shadow: 0 8px 25px var(--accent-gf-glow); }
+    .char-card.cat:hover { border-color: var(--accent-cat); box-shadow: 0 8px 25px var(--accent-cat-glow); }
+
+    .char-avatar {
+      width: 80px;
+      height: 80px;
       border-radius: 12px;
-      background: #000;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: #1e1b4b;
+    }
+
+    .char-info {
+      flex: 1;
+    }
+
+    .char-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .char-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .char-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .char-dialogue {
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .char-audio-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .char-audio-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>2D Rigged Character Studio</h1>
-    <p>Calibrated Smooth Micro-Motion with Rhubarb Lip Sync & Eye Blinks</p>
+    <div class="badge">Scene Production Pipeline</div>
+    <h1>Sinchan, Grandpa & Cat Studio</h1>
+    <p>Automated Multi-Character Rhubarb Lip Sync with ElevenLabs Dialogue & Independent Natural Blinks</p>
   </div>
 
-  <div class="main-container">
-    <!-- Live Canvas Stage -->
-    <div class="stage-card">
-      <div class="status-badge">
-        <div class="status-dot"></div>
-        <span id="activeVisemeLabel">Mouth: X</span>
-      </div>
-      <canvas id="charCanvas" width="1024" height="1536"></canvas>
-    </div>
-
-    <!-- Controls & Info -->
-    <div class="controls-card">
-      <div class="btn-group">
-        <button id="playBtn" class="btn btn-primary">▶ Play Interactive</button>
-        <button id="stopBtn" class="btn btn-secondary">⏹ Stop</button>
+  <div class="grid-container">
+    
+    <!-- Video Player Section -->
+    <div class="card video-section">
+      <h2>🎬 Final Animated Dialogue Scene</h2>
+      <div class="video-wrapper">
+        <video controls src="scene_dialogue_animated.mp4" poster="scene_main.jpg"></video>
       </div>
 
-      <div class="slider-group">
-        <label><span>Breathing Intensity</span><span id="breathVal">1.8 px</span></label>
-        <input type="range" id="breathSlider" min="0" max="6" step="0.2" value="1.8">
-      </div>
-
-      <div class="slider-group">
-        <label><span>Head Motion Tilt</span><span id="tiltVal">0.35°</span></label>
-        <input type="range" id="tiltSlider" min="0" max="1.5" step="0.05" value="0.35">
-      </div>
-
-      <!-- Visemes Real-time Inspector -->
-      <div class="visemes-panel">
-        <h3>Live Phoneme Visemes</h3>
-        <div class="viseme-grid">
-          <div class="viseme-box" id="box-X"><div class="v-name">X</div><div class="v-sound">Neutral</div></div>
-          <div class="viseme-box" id="box-A"><div class="v-name">A</div><div class="v-sound">M, B, P</div></div>
-          <div class="viseme-box" id="box-B"><div class="v-name">B</div><div class="v-sound">S, T, EE</div></div>
-          <div class="viseme-box" id="box-C"><div class="v-name">C</div><div class="v-sound">EH, AE</div></div>
-          <div class="viseme-box" id="box-D"><div class="v-name">D</div><div class="v-sound">AA (Open)</div></div>
-          <div class="viseme-box" id="box-E"><div class="v-name">E</div><div class="v-sound">O, ER</div></div>
-          <div class="viseme-box" id="box-F"><div class="v-name">F</div><div class="v-sound">UW, OO</div></div>
-          <div class="viseme-box" id="box-G"><div class="v-name">G</div><div class="v-sound">F, V</div></div>
+      <!-- Dialogue Timeline -->
+      <div class="timeline-bar">
+        <div class="timeline-title">Dialogue Sequence Timeline (8.39s total)</div>
+        <div class="timeline-tracks">
+          <div class="track-row">
+            <span class="track-name sinchan">Sinchan</span>
+            <div class="track-bar-container">
+              <div class="track-segment sinchan">0.40s - 1.47s</div>
+            </div>
+          </div>
+          <div class="track-row">
+            <span class="track-name gf">Grandpa</span>
+            <div class="track-bar-container">
+              <div class="track-segment gf">2.07s - 3.65s</div>
+            </div>
+          </div>
+          <div class="track-row">
+            <span class="track-name cat">Cat</span>
+            <div class="track-bar-container">
+              <div class="track-segment cat">4.20s - 7.59s</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Character Roster Section -->
+    <div class="card characters-section">
+      <h2>👥 Character Dialogue Roster</h2>
+      <div class="character-cards">
+        
+        <!-- Sinchan -->
+        <div class="char-card sinchan">
+          <img src="sinchan.png" alt="Sinchan" class="char-avatar">
+          <div class="char-info">
+            <div class="char-header">
+              <span class="char-name" style="color: #fb7185;">Sinchan</span>
+              <span class="char-time">0.40s – 1.47s</span>
+            </div>
+            <div class="char-dialogue">"What is JPEG?"</div>
+            <button class="char-audio-btn" onclick="playAudio('audio_sinchan.wav')">🔊 Play Audio</button>
+          </div>
+        </div>
+
+        <!-- Grandfather -->
+        <div class="char-card gf">
+          <img src="grandfather.png" alt="Grandfather" class="char-avatar">
+          <div class="char-info">
+            <div class="char-header">
+              <span class="char-name" style="color: #facc15;">Grandpa</span>
+              <span class="char-time">2.07s – 3.65s</span>
+            </div>
+            <div class="char-dialogue">"Is it alcohol peg?"</div>
+            <button class="char-audio-btn" onclick="playAudio('audio_grandfather.wav')">🔊 Play Audio</button>
+          </div>
+        </div>
+
+        <!-- Cat -->
+        <div class="char-card cat">
+          <img src="cat.png" alt="Cat" class="char-avatar">
+          <div class="char-info">
+            <div class="char-header">
+              <span class="char-name" style="color: #38bdf8;">Cat</span>
+              <span class="char-time">4.20s – 7.59s</span>
+            </div>
+            <div class="char-dialogue">"This idiot doesn't know anything! Wait, let me explain JPEG."</div>
+            <button class="char-audio-btn" onclick="playAudio('audio_cat.wav')">🔊 Play Audio</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-  <!-- Final Rigged Video Preview -->
-  <div class="video-card">
-    <h2>Exported Video (rhubarb_character_rigged_final.mp4)</h2>
-    <video controls src="rhubarb_character_rigged_final.mp4"></video>
-  </div>
+  <audio id="audioPlayer"></audio>
 
-  <audio id="speechAudio" src="speech.wav"></audio>
+  <div class="footer">
+    <p>Rendered with Rhubarb Lip Sync, Pillow Sprite Compositing & FFmpeg Muxing</p>
+  </div>
 
   <script>
-    const canvas = document.getElementById('charCanvas');
-    const ctx = canvas.getContext('2d');
-    const audio = document.getElementById('speechAudio');
-    const playBtn = document.getElementById('playBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const activeLabel = document.getElementById('activeVisemeLabel');
-    const breathSlider = document.getElementById('breathSlider');
-    const tiltSlider = document.getElementById('tiltSlider');
-
-    let cues = [];
-    
-    // Load Layers
-    const legsImg = new Image(); legsImg.src = 'layer_legs.png';
-    const torsoImg = new Image(); torsoImg.src = 'layer_torso.png';
-    const headImg = new Image(); headImg.src = 'layer_head.png';
-    const blinkClosed = new Image(); blinkClosed.src = 'blink_closed_clean.png';
-    const blinkHalf = new Image(); blinkHalf.src = 'blink_half_clean.png';
-
-    // Load Visemes
-    const visemes = {};
-    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'X'].forEach(name => {
-      const img = new Image();
-      img.src = `visemes/${name}.png`;
-      visemes[name] = img;
-    });
-
-    // Load lip sync data
-    fetch('lip_sync.json')
-      .then(r => r.json())
-      .then(data => { cues = data.mouthCues || []; });
-
-    const MOUTH_CX = 495;
-    const MOUTH_CY = 360;
-    const NECK_PIVOT_X = 512;
-    const NECK_PIVOT_Y = 460;
-
-    let isPlaying = false;
-    let breathAmp = 1.8;
-    let maxTilt = 0.35;
-    
-    let smoothTorsoDy = 0.0;
-    let smoothHeadAngle = 0.0;
-
-    breathSlider.addEventListener('input', e => {
-      breathAmp = parseFloat(e.target.value);
-      document.getElementById('breathVal').textContent = `${breathAmp} px`;
-    });
-
-    tiltSlider.addEventListener('input', e => {
-      maxTilt = parseFloat(e.target.value);
-      document.getElementById('tiltVal').textContent = `${maxTilt.toFixed(2)}°`;
-    });
-
-    playBtn.addEventListener('click', () => {
-      audio.currentTime = 0;
-      audio.play();
-      isPlaying = true;
-      playBtn.textContent = '⏸ Pause';
-    });
-
-    stopBtn.addEventListener('click', () => {
-      audio.pause();
-      audio.currentTime = 0;
-      isPlaying = false;
-      playBtn.textContent = '▶ Play Interactive';
-    });
-
-    audio.addEventListener('ended', () => {
-      isPlaying = false;
-      playBtn.textContent = '▶ Play Interactive';
-    });
-
-    function getActiveCue(time) {
-      for (let c of cues) {
-        if (time >= c.start && time <= c.end) return c.value;
-      }
-      return 'X';
+    const player = document.getElementById('audioPlayer');
+    function playAudio(src) {
+      player.src = src;
+      player.play();
     }
-
-    const blinkTimestamps = [1.2, 3.8, 6.2];
-
-    function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const currentTime = isPlaying ? audio.currentTime : 0;
-      const cue = isPlaying ? getActiveCue(currentTime) : 'X';
-
-      // Update UI active viseme indicator
-      activeLabel.textContent = `Mouth: ${cue}`;
-      document.querySelectorAll('.viseme-box').forEach(b => b.classList.remove('active'));
-      const activeBox = document.getElementById(`box-${cue}`);
-      if (activeBox) activeBox.classList.add('active');
-
-      const t = performance.now() / 1000;
-      
-      // 1. Torso Breathing (Very gentle)
-      const targetTorsoDy = -Math.sin(t * 2.2) * breathAmp;
-      smoothTorsoDy = smoothTorsoDy * 0.85 + targetTorsoDy * 0.15;
-      const headDy = smoothTorsoDy * 1.1;
-
-      // 2. Head Tilt (Continuous smooth sine wave)
-      const targetHeadAngle = (Math.sin(t * 1.2) * maxTilt + Math.sin(t * 0.6) * (maxTilt * 0.4)) * (Math.PI / 180);
-      smoothHeadAngle = smoothHeadAngle * 0.85 + targetHeadAngle * 0.15;
-
-      // 3. 3-Phase Eye Blink Calculation
-      let currentBlinkImg = null;
-      if (isPlaying) {
-        for (let bt of blinkTimestamps) {
-          const dt = currentTime - bt;
-          if (dt >= 0 && dt < 0.04) {
-            currentBlinkImg = blinkHalf;
-            break;
-          } else if (dt >= 0.04 && dt < 0.12) {
-            currentBlinkImg = blinkClosed;
-            break;
-          } else if (dt >= 0.12 && dt < 0.16) {
-            currentBlinkImg = blinkHalf;
-            break;
-          }
-        }
-      }
-
-      // LAYER 1: Legs & Feet (Grounded at 0, 0)
-      if (legsImg.complete) ctx.drawImage(legsImg, 0, 0);
-
-      // LAYER 2: Head & Neck (Rotated around neck pivot & translates smoothly with torso)
-      ctx.save();
-      ctx.translate(NECK_PIVOT_X, NECK_PIVOT_Y + headDy);
-      ctx.rotate(smoothHeadAngle);
-      ctx.translate(-NECK_PIVOT_X, -NECK_PIVOT_Y);
-
-      if (headImg.complete) ctx.drawImage(headImg, 0, 0);
-
-      // Draw Mouth Viseme on Head
-      const mouthImg = visemes[cue] || visemes['X'];
-      if (mouthImg && mouthImg.complete) {
-        ctx.drawImage(mouthImg, MOUTH_CX - 50, MOUTH_CY - 35);
-      }
-
-      // Draw Blink if active
-      if (currentBlinkImg && currentBlinkImg.complete) {
-        ctx.drawImage(currentBlinkImg, 0, 0);
-      }
-      ctx.restore();
-
-      // LAYER 3: Torso & Arms (Draws on top of collar & waist seams)
-      if (torsoImg.complete) ctx.drawImage(torsoImg, 0, smoothTorsoDy);
-
-      requestAnimationFrame(render);
-    }
-
-    legsImg.onload = () => render();
   </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ import subprocess
 RHUBARB_EXE = os.path.abspath("rhubarb/Rhubarb-Lip-Sync-1.14.0-Windows/rhubarb.exe")
 
 tracks = [
-    {"wav": "audio_boy.wav", "json": "lip_sync_boy.json", "dialog": "What is JPEG?"},
+    {"wav": "audio_sinchan.wav", "json": "lip_sync_sinchan.json", "dialog": "What is JPEG?"},
     {"wav": "audio_grandfather.wav", "json": "lip_sync_grandfather.json", "dialog": "Is it alcohol peg?"},
     {"wav": "audio_cat.wav", "json": "lip_sync_cat.json", "dialog": "This idiot doesn't know anything! Wait, let me explain JPEG."}
 ]

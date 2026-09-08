@@ -1,10 +1,10 @@
 {
   "total_duration": 8.3871875,
   "sample_rate": 16000,
-  "boy": {
+  "sinchan": {
     "start": 0.4,
     "end": 1.4681250000000001,
-    "json": "lip_sync_boy.json"
+    "json": "lip_sync_sinchan.json"
   },
   "grandfather": {
     "start": 2.068125,

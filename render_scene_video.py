@@ -16,8 +16,8 @@ with open("scene_timeline.json", "r") as f:
 
 total_duration = timeline["total_duration"]
 
-with open("lip_sync_boy.json", "r") as f:
-    boy_cues = json.load(f)["mouthCues"]
+with open("lip_sync_sinchan.json", "r") as f:
+    sinchan_cues = json.load(f)["mouthCues"]
 
 with open("lip_sync_grandfather.json", "r") as f:
     gf_cues = json.load(f)["mouthCues"]
@@ -34,13 +34,13 @@ def load_visemes(char_folder):
             vis[cue] = Image.open(p).convert("RGBA")
     return vis
 
-boy_visemes = load_visemes("boy")
+sinchan_visemes = load_visemes("sinchan")
 gf_visemes = load_visemes("grandfather")
 cat_visemes = load_visemes("cat")
 
 # 4. Load Blink Overlays
-boy_blink_closed = Image.open("scene_assets/boy/blink_closed.png").convert("RGBA")
-boy_blink_half = Image.open("scene_assets/boy/blink_half.png").convert("RGBA")
+sinchan_blink_closed = Image.open("scene_assets/sinchan/blink_closed.png").convert("RGBA")
+sinchan_blink_half = Image.open("scene_assets/sinchan/blink_half.png").convert("RGBA")
 
 gf_blink_closed = Image.open("scene_assets/grandfather/blink_closed.png").convert("RGBA")
 gf_blink_half = Image.open("scene_assets/grandfather/blink_half.png").convert("RGBA")
@@ -49,8 +49,8 @@ cat_blink_closed = Image.open("scene_assets/cat/blink_closed.png").convert("RGBA
 cat_blink_half = Image.open("scene_assets/cat/blink_half.png").convert("RGBA")
 
 # 5. Exact Anchor Positions
-BOY_MOUTH_POS = (254, 544)
-BOY_EYES_POS = (176, 492)
+SINCHAN_MOUTH_POS = (254, 544)
+SINCHAN_EYES_POS = (176, 492)
 
 GF_MOUTH_POS = (648, 372)
 GF_EYES_POS = (628, 312)
@@ -59,7 +59,7 @@ CAT_MOUTH_POS = (386, 530)
 CAT_EYES_POS = (376, 500)
 
 # Natural independent blink timestamps
-boy_blinks = [0.9, 3.2, 5.5, 7.7]
+sinchan_blinks = [0.9, 3.2, 5.5, 7.7]
 gf_blinks = [0.7, 2.6, 4.8, 6.9]
 cat_blinks = [1.6, 3.8, 5.9, 8.0]
 
@@ -107,23 +107,23 @@ for frame_idx in range(total_frames):
     frame = base_img.copy()
     
     # ----------------------------------------
-    # 1. BOY ANIMATION
+    # 1. SINCHAN ANIMATION
     # ----------------------------------------
-    boy_cue = get_active_cue(t, timeline["boy"]["start"], timeline["boy"]["end"], boy_cues)
-    boy_speaking = (timeline["boy"]["start"] <= t <= timeline["boy"]["end"])
+    sinchan_cue = get_active_cue(t, timeline["sinchan"]["start"], timeline["sinchan"]["end"], sinchan_cues)
+    sinchan_speaking = (timeline["sinchan"]["start"] <= t <= timeline["sinchan"]["end"])
     
     # Subtle speech gesture bounce
-    boy_dy = int(math.sin((t - timeline["boy"]["start"]) * 14) * 1.5) if boy_speaking else 0
+    sinchan_dy = int(math.sin((t - timeline["sinchan"]["start"]) * 14) * 1.5) if sinchan_speaking else 0
     
-    # Boy Mouth
-    if boy_cue != "X" and boy_cue in boy_visemes:
-        bm = boy_visemes[boy_cue]
-        frame.paste(bm, (BOY_MOUTH_POS[0], BOY_MOUTH_POS[1] + boy_dy), bm)
+    # Sinchan Mouth
+    if sinchan_cue != "X" and sinchan_cue in sinchan_visemes:
+        sm = sinchan_visemes[sinchan_cue]
+        frame.paste(sm, (SINCHAN_MOUTH_POS[0], SINCHAN_MOUTH_POS[1] + sinchan_dy), sm)
     
-    # Boy Blinks
-    boy_blink = get_blink_overlay(t, boy_blinks, boy_blink_half, boy_blink_closed)
-    if boy_blink:
-        frame.paste(boy_blink, (BOY_EYES_POS[0], BOY_EYES_POS[1] + boy_dy), boy_blink)
+    # Sinchan Blinks
+    sinchan_blink = get_blink_overlay(t, sinchan_blinks, sinchan_blink_half, sinchan_blink_closed)
+    if sinchan_blink:
+        frame.paste(sinchan_blink, (SINCHAN_EYES_POS[0], SINCHAN_EYES_POS[1] + sinchan_dy), sinchan_blink)
         
     # ----------------------------------------
     # 2. GRANDFATHER ANIMATION

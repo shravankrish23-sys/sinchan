@@ -18,13 +18,13 @@ def write_wav(filename, samples, framerate):
         w.setframerate(framerate)
         w.writeframes(samples.astype(np.int16).tobytes())
 
-samples_boy, sr = read_wav("audio_boy.wav")
+samples_sinchan, sr = read_wav("audio_sinchan.wav")
 samples_gf, _ = read_wav("audio_grandfather.wav")
 samples_cat, _ = read_wav("audio_cat.wav")
 
 # Desired dialogue timeline:
 # 0.00s - 0.40s: Initial pause (0.4s)
-# 0.40s - (0.40 + boy_dur): Boy speaks ("What is JPEG?")
+# 0.40s - (0.40 + sinchan_dur): Sinchan speaks ("What is JPEG?")
 # Pause 0.60s (Grandfather thinks)
 # GF speaks ("Is it alcohol peg?")
 # Pause 0.55s (Cat reacts/glares)
@@ -38,7 +38,7 @@ pause_final = np.zeros(int(0.80 * sr), dtype=np.int16)
 
 master_audio = np.concatenate([
     pause_initial,
-    samples_boy,
+    samples_sinchan,
     pause_gf,
     samples_gf,
     pause_cat,
@@ -49,10 +49,10 @@ master_audio = np.concatenate([
 write_wav("scene_master_dialogue.wav", master_audio, sr)
 
 # Calculate exact time offsets for animation engine
-t_boy_start = 0.40
-t_boy_end = t_boy_start + len(samples_boy) / sr
+t_sinchan_start = 0.40
+t_sinchan_end = t_sinchan_start + len(samples_sinchan) / sr
 
-t_gf_start = t_boy_end + 0.60
+t_gf_start = t_sinchan_end + 0.60
 t_gf_end = t_gf_start + len(samples_gf) / sr
 
 t_cat_start = t_gf_end + 0.55
@@ -63,7 +63,7 @@ total_duration = len(master_audio) / sr
 timeline_info = {
     "total_duration": total_duration,
     "sample_rate": sr,
-    "boy": {"start": t_boy_start, "end": t_boy_end, "json": "lip_sync_boy.json"},
+    "sinchan": {"start": t_sinchan_start, "end": t_sinchan_end, "json": "lip_sync_sinchan.json"},
     "grandfather": {"start": t_gf_start, "end": t_gf_end, "json": "lip_sync_grandfather.json"},
     "cat": {"start": t_cat_start, "end": t_cat_end, "json": "lip_sync_cat.json"}
 }
@@ -72,4 +72,4 @@ with open("scene_timeline.json", "w") as f:
     json.dump(timeline_info, f, indent=2)
 
 print(f"Master dialogue WAV generated: {total_duration:.2f}s total.")
-print(f"Timeline: Boy ({t_boy_start:.2f}s - {t_boy_end:.2f}s) -> GF ({t_gf_start:.2f}s - {t_gf_end:.2f}s) -> Cat ({t_cat_start:.2f}s - {t_cat_end:.2f}s)")
+print(f"Timeline: Sinchan ({t_sinchan_start:.2f}s - {t_sinchan_end:.2f}s) -> GF ({t_gf_start:.2f}s - {t_gf_end:.2f}s) -> Cat ({t_cat_start:.2f}s - {t_cat_end:.2f}s)")

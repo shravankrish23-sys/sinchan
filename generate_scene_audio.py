@@ -6,17 +6,17 @@ import imageio_ffmpeg
 ELEVENLABS_API_KEY = "sk_f3572e577269e2930404917d515e24472c23f06ca0986e1c"
 
 # Voice selections:
-# Boy: Josh (TxGEqnHWrfWFTfGW9XjX) or Antoni (ErXwobaYiN019PkySvjV)
+# Sinchan: Josh (TxGEqnHWrfWFTfGW9XjX) or Antoni (ErXwobaYiN019PkySvjV)
 # Grandfather: Arnold (VR6AewLTigWG4xSOukaG) or Daniel (onwK4e9ZLuTAKqWW03F9)
 # Cat: Domi (AZnzlk1XvdvUeBnXmlld) or Callum (N2lVS1w4EtoT3dr4eOWO)
 
 dialogues = [
     {
-        "character": "boy",
+        "character": "sinchan",
         "voice_id": "ErXwobaYiN019PkySvjV",  # Antoni - youthful & clear
         "text": "What is JPEG?",
-        "mp3": "audio_boy.mp3",
-        "wav": "audio_boy.wav"
+        "mp3": "audio_sinchan.mp3",
+        "wav": "audio_sinchan.wav"
     },
     {
         "character": "grandfather",

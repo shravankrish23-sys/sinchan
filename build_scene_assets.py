@@ -3,34 +3,34 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-os.makedirs("scene_assets/boy", exist_ok=True)
+os.makedirs("scene_assets/sinchan", exist_ok=True)
 os.makedirs("scene_assets/cat", exist_ok=True)
 os.makedirs("scene_assets/grandfather", exist_ok=True)
 
 scene = Image.open("scene_main.jpg").convert("RGBA")
 
 # ==========================================
-# 1. BOY ASSETS GENERATION
+# 1. SINCHAN ASSETS GENERATION
 # ==========================================
-# Boy skin color: #F8B394 -> (248, 179, 148), Line: (28, 20, 18), Mouth inside: (132, 60, 58), Tongue: (200, 95, 95)
-BOY_SKIN = (248, 179, 148, 255)
-BOY_LINE = (25, 20, 20, 255)
-BOY_MOUTH_BG = (120, 48, 48, 255)
-BOY_TONGUE = (210, 95, 95, 255)
-BOY_TEETH = (255, 255, 255, 255)
+# Sinchan skin color: #F8B394 -> (248, 179, 148), Line: (28, 20, 18), Mouth inside: (132, 60, 58), Tongue: (200, 95, 95)
+SINCHAN_SKIN = (248, 179, 148, 255)
+SINCHAN_LINE = (25, 20, 20, 255)
+SINCHAN_MOUTH_BG = (120, 48, 48, 255)
+SINCHAN_TONGUE = (210, 95, 95, 255)
+SINCHAN_TEETH = (255, 255, 255, 255)
 
-# Boy neutral patch to cover open mouth cleanly
-boy_patch_w, boy_patch_h = 60, 60
-boy_base_patch = Image.new("RGBA", (boy_patch_w, boy_patch_h), (0, 0, 0, 0))
-d = ImageDraw.Draw(boy_base_patch)
+# Sinchan neutral patch to cover open mouth cleanly
+sinchan_patch_w, sinchan_patch_h = 60, 60
+sinchan_base_patch = Image.new("RGBA", (sinchan_patch_w, sinchan_patch_h), (0, 0, 0, 0))
+d = ImageDraw.Draw(sinchan_base_patch)
 # Soft circular skin patch
-d.ellipse([5, 5, 55, 55], fill=BOY_SKIN)
+d.ellipse([5, 5, 55, 55], fill=SINCHAN_SKIN)
 # Add small neutral smile line
-d.arc([18, 20, 42, 38], start=20, end=160, fill=BOY_LINE, width=3)
-boy_base_patch.save("scene_assets/boy/base_patch.png")
+d.arc([18, 20, 42, 38], start=20, end=160, fill=SINCHAN_LINE, width=3)
+sinchan_base_patch.save("scene_assets/sinchan/base_patch.png")
 
-# Generate Boy Visemes
-boy_viseme_defs = {
+# Generate Sinchan Visemes
+sinchan_viseme_defs = {
     "X": ("neutral", 0),
     "A": ("closed_line", 0),
     "B": ("teeth_small", 1),
@@ -42,64 +42,64 @@ boy_viseme_defs = {
     "H": ("tall_open", 3)
 }
 
-for cue, (style, scale) in boy_viseme_defs.items():
-    v_img = Image.new("RGBA", (boy_patch_w, boy_patch_h), (0, 0, 0, 0))
+for cue, (style, scale) in sinchan_viseme_defs.items():
+    v_img = Image.new("RGBA", (sinchan_patch_w, sinchan_patch_h), (0, 0, 0, 0))
     vd = ImageDraw.Draw(v_img)
     # Fill skin base
-    vd.ellipse([5, 5, 55, 55], fill=BOY_SKIN)
+    vd.ellipse([5, 5, 55, 55], fill=SINCHAN_SKIN)
     
     cx, cy = 30, 30
     if style == "neutral":
-        vd.arc([18, 20, 42, 38], start=20, end=160, fill=BOY_LINE, width=3)
+        vd.arc([18, 20, 42, 38], start=20, end=160, fill=SINCHAN_LINE, width=3)
     elif style == "closed_line":
-        vd.line([16, cy, 44, cy], fill=BOY_LINE, width=3)
+        vd.line([16, cy, 44, cy], fill=SINCHAN_LINE, width=3)
     elif style == "teeth_small":
-        vd.rounded_rectangle([18, cy-6, 42, cy+6], radius=4, fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2)
-        vd.rectangle([20, cy-4, 40, cy-1], fill=BOY_TEETH)
-        vd.arc([22, cy, 38, cy+4], start=0, end=180, fill=BOY_TONGUE)
+        vd.rounded_rectangle([18, cy-6, 42, cy+6], radius=4, fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2)
+        vd.rectangle([20, cy-4, 40, cy-1], fill=SINCHAN_TEETH)
+        vd.arc([22, cy, 38, cy+4], start=0, end=180, fill=SINCHAN_TONGUE)
     elif style == "medium_oval":
-        vd.ellipse([16, cy-10, 44, cy+10], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2)
-        vd.rectangle([20, cy-8, 40, cy-4], fill=BOY_TEETH)
-        vd.ellipse([22, cy, 38, cy+8], fill=BOY_TONGUE)
+        vd.ellipse([16, cy-10, 44, cy+10], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2)
+        vd.rectangle([20, cy-8, 40, cy-4], fill=SINCHAN_TEETH)
+        vd.ellipse([22, cy, 38, cy+8], fill=SINCHAN_TONGUE)
     elif style == "wide_open":
-        vd.ellipse([14, cy-14, 46, cy+14], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3)
-        vd.rectangle([18, cy-12, 42, cy-6], fill=BOY_TEETH)
-        vd.ellipse([20, cy-2, 40, cy+12], fill=BOY_TONGUE)
+        vd.ellipse([14, cy-14, 46, cy+14], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3)
+        vd.rectangle([18, cy-12, 42, cy-6], fill=SINCHAN_TEETH)
+        vd.ellipse([20, cy-2, 40, cy+12], fill=SINCHAN_TONGUE)
     elif style == "round_o":
-        vd.ellipse([20, cy-11, 40, cy+11], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3)
-        vd.ellipse([24, cy+1, 36, cy+9], fill=BOY_TONGUE)
+        vd.ellipse([20, cy-11, 40, cy+11], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3)
+        vd.ellipse([24, cy+1, 36, cy+9], fill=SINCHAN_TONGUE)
     elif style == "pucker":
-        vd.ellipse([23, cy-7, 37, cy+7], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2)
+        vd.ellipse([23, cy-7, 37, cy+7], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2)
     elif style == "lip_teeth":
-        vd.ellipse([18, cy-7, 42, cy+7], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2)
-        vd.rectangle([20, cy-5, 40, cy], fill=BOY_TEETH)
+        vd.ellipse([18, cy-7, 42, cy+7], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2)
+        vd.rectangle([20, cy-5, 40, cy], fill=SINCHAN_TEETH)
     elif style == "tall_open":
-        vd.ellipse([16, cy-16, 44, cy+16], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3)
-        vd.rectangle([20, cy-14, 40, cy-7], fill=BOY_TEETH)
-        vd.ellipse([22, cy, 38, cy+14], fill=BOY_TONGUE)
+        vd.ellipse([16, cy-16, 44, cy+16], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3)
+        vd.rectangle([20, cy-14, 40, cy-7], fill=SINCHAN_TEETH)
+        vd.ellipse([22, cy, 38, cy+14], fill=SINCHAN_TONGUE)
     
     # Soft alpha blur on edges for seamless blending
-    v_img.save(f"scene_assets/boy/viseme_{cue}.png")
+    v_img.save(f"scene_assets/sinchan/viseme_{cue}.png")
 
-# Boy Blink Overlays
-boy_eye_w, boy_eye_h = 140, 80
+# Sinchan Blink Overlays
+sinchan_eye_w, sinchan_eye_h = 140, 80
 # Left Eye center relative to patch: (46, 46), Right Eye: (114, 44)
-boy_blink_closed = Image.new("RGBA", (boy_eye_w, boy_eye_h), (0, 0, 0, 0))
-bd = ImageDraw.Draw(boy_blink_closed)
+sinchan_blink_closed = Image.new("RGBA", (sinchan_eye_w, sinchan_eye_h), (0, 0, 0, 0))
+bd = ImageDraw.Draw(sinchan_blink_closed)
 # Left eye skin + curve
-bd.ellipse([28, 25, 64, 65], fill=BOY_SKIN)
-bd.arc([28, 30, 64, 58], start=200, end=340, fill=BOY_LINE, width=4)
+bd.ellipse([28, 25, 64, 65], fill=SINCHAN_SKIN)
+bd.arc([28, 30, 64, 58], start=200, end=340, fill=SINCHAN_LINE, width=4)
 # Right eye skin + curve
-bd.ellipse([96, 23, 132, 63], fill=BOY_SKIN)
-bd.arc([96, 28, 132, 56], start=200, end=340, fill=BOY_LINE, width=4)
-boy_blink_closed.save("scene_assets/boy/blink_closed.png")
+bd.ellipse([96, 23, 132, 63], fill=SINCHAN_SKIN)
+bd.arc([96, 28, 132, 56], start=200, end=340, fill=SINCHAN_LINE, width=4)
+sinchan_blink_closed.save("scene_assets/sinchan/blink_closed.png")
 
 # Half blink
-boy_blink_half = Image.new("RGBA", (boy_eye_w, boy_eye_h), (0, 0, 0, 0))
-bhd = ImageDraw.Draw(boy_blink_half)
-bhd.chord([28, 22, 64, 52], start=180, end=360, fill=BOY_SKIN, outline=BOY_LINE, width=3)
-bhd.chord([96, 20, 132, 50], start=180, end=360, fill=BOY_SKIN, outline=BOY_LINE, width=3)
-boy_blink_half.save("scene_assets/boy/blink_half.png")
+sinchan_blink_half = Image.new("RGBA", (sinchan_eye_w, sinchan_eye_h), (0, 0, 0, 0))
+bhd = ImageDraw.Draw(sinchan_blink_half)
+bhd.chord([28, 22, 64, 52], start=180, end=360, fill=SINCHAN_SKIN, outline=SINCHAN_LINE, width=3)
+bhd.chord([96, 20, 132, 50], start=180, end=360, fill=SINCHAN_SKIN, outline=SINCHAN_LINE, width=3)
+sinchan_blink_half.save("scene_assets/sinchan/blink_half.png")
 
 
 # ==========================================

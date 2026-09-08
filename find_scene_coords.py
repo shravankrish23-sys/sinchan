@@ -10,10 +10,10 @@ debug = img.copy()
 draw = ImageDraw.Draw(debug)
 
 # Estimates:
-# Boy:
+# Sinchan:
 # Head box: (55, 380, 350, 610)
-# Left eye (character's right / viewer's left): ~ (150, 520) - wait, looking at image:
-# In debug_boy_face.png (cropped at 50, 380, 350, 620):
+# Left eye: ~ (150, 520)
+# In debug_sinchan_face.png (cropped at 50, 380, 350, 620):
 # Mouth: roughly around center of cheek/face.
 # Let's mark specific coordinate grids to verify.
 

@@ -3,82 +3,82 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-os.makedirs("scene_assets/boy", exist_ok=True)
+os.makedirs("scene_assets/sinchan", exist_ok=True)
 os.makedirs("scene_assets/cat", exist_ok=True)
 os.makedirs("scene_assets/grandfather", exist_ok=True)
 
 # ----------------------------------------------------
-# 1. BOY ASSETS (Shinchan Style)
+# 1. SINCHAN ASSETS (Shinchan Style)
 # ----------------------------------------------------
-BOY_SKIN = (248, 179, 148, 255)
-BOY_LINE = (28, 20, 20, 255)
-BOY_MOUTH_BG = (120, 48, 48, 255)
-BOY_TONGUE = (210, 95, 95, 255)
-BOY_TEETH = (255, 255, 255, 255)
+SINCHAN_SKIN = (248, 179, 148, 255)
+SINCHAN_LINE = (28, 20, 20, 255)
+SINCHAN_MOUTH_BG = (120, 48, 48, 255)
+SINCHAN_TONGUE = (210, 95, 95, 255)
+SINCHAN_TEETH = (255, 255, 255, 255)
 
-boy_w, boy_h = 50, 50
-boy_viseme_data = {
-    "X": lambda d, cx, cy: d.arc([cx-10, cy-6, cx+10, cy+8], start=20, end=160, fill=BOY_LINE, width=3),
-    "A": lambda d, cx, cy: d.line([cx-10, cy, cx+10, cy], fill=BOY_LINE, width=3),
+sinchan_w, sinchan_h = 50, 50
+sinchan_viseme_data = {
+    "X": lambda d, cx, cy: d.arc([cx-10, cy-6, cx+10, cy+8], start=20, end=160, fill=SINCHAN_LINE, width=3),
+    "A": lambda d, cx, cy: d.line([cx-10, cy, cx+10, cy], fill=SINCHAN_LINE, width=3),
     "B": lambda d, cx, cy: (
-        d.rounded_rectangle([cx-9, cy-6, cx+9, cy+6], radius=4, fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2),
-        d.rectangle([cx-7, cy-4, cx+7, cy-1], fill=BOY_TEETH),
-        d.arc([cx-6, cy, cx+6, cy+4], start=0, end=180, fill=BOY_TONGUE)
+        d.rounded_rectangle([cx-9, cy-6, cx+9, cy+6], radius=4, fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2),
+        d.rectangle([cx-7, cy-4, cx+7, cy-1], fill=SINCHAN_TEETH),
+        d.arc([cx-6, cy, cx+6, cy+4], start=0, end=180, fill=SINCHAN_TONGUE)
     ),
     "C": lambda d, cx, cy: (
-        d.ellipse([cx-11, cy-9, cx+11, cy+9], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2),
-        d.rectangle([cx-8, cy-7, cx+8, cy-3], fill=BOY_TEETH),
-        d.ellipse([cx-7, cy+1, cx+7, cy+7], fill=BOY_TONGUE)
+        d.ellipse([cx-11, cy-9, cx+11, cy+9], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2),
+        d.rectangle([cx-8, cy-7, cx+8, cy-3], fill=SINCHAN_TEETH),
+        d.ellipse([cx-7, cy+1, cx+7, cy+7], fill=SINCHAN_TONGUE)
     ),
     "D": lambda d, cx, cy: (
-        d.ellipse([cx-13, cy-12, cx+13, cy+12], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3),
-        d.rectangle([cx-9, cy-10, cx+9, cy-5], fill=BOY_TEETH),
-        d.ellipse([cx-8, cy, cx+8, cy+10], fill=BOY_TONGUE)
+        d.ellipse([cx-13, cy-12, cx+13, cy+12], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3),
+        d.rectangle([cx-9, cy-10, cx+9, cy-5], fill=SINCHAN_TEETH),
+        d.ellipse([cx-8, cy, cx+8, cy+10], fill=SINCHAN_TONGUE)
     ),
     "E": lambda d, cx, cy: (
-        d.ellipse([cx-10, cy-11, cx+10, cy+11], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3),
-        d.ellipse([cx-6, cy+2, cx+6, cy+9], fill=BOY_TONGUE)
+        d.ellipse([cx-10, cy-11, cx+10, cy+11], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3),
+        d.ellipse([cx-6, cy+2, cx+6, cy+9], fill=SINCHAN_TONGUE)
     ),
     "F": lambda d, cx, cy: (
-        d.ellipse([cx-7, cy-7, cx+7, cy+7], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2),
-        d.ellipse([cx-4, cy, cx+4, cy+5], fill=BOY_TONGUE)
+        d.ellipse([cx-7, cy-7, cx+7, cy+7], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2),
+        d.ellipse([cx-4, cy, cx+4, cy+5], fill=SINCHAN_TONGUE)
     ),
     "G": lambda d, cx, cy: (
-        d.ellipse([cx-10, cy-7, cx+10, cy+7], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=2),
-        d.rectangle([cx-8, cy-5, cx+8, cy], fill=BOY_TEETH)
+        d.ellipse([cx-10, cy-7, cx+10, cy+7], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=2),
+        d.rectangle([cx-8, cy-5, cx+8, cy], fill=SINCHAN_TEETH)
     ),
     "H": lambda d, cx, cy: (
-        d.ellipse([cx-12, cy-14, cx+12, cy+14], fill=BOY_MOUTH_BG, outline=BOY_LINE, width=3),
-        d.rectangle([cx-8, cy-12, cx+8, cy-6], fill=BOY_TEETH),
-        d.ellipse([cx-7, cy+1, cx+7, cy+12], fill=BOY_TONGUE)
+        d.ellipse([cx-12, cy-14, cx+12, cy+14], fill=SINCHAN_MOUTH_BG, outline=SINCHAN_LINE, width=3),
+        d.rectangle([cx-8, cy-12, cx+8, cy-6], fill=SINCHAN_TEETH),
+        d.ellipse([cx-7, cy+1, cx+7, cy+12], fill=SINCHAN_TONGUE)
     )
 }
 
-for cue, draw_fn in boy_viseme_data.items():
-    img = Image.new("RGBA", (boy_w, boy_h), (0, 0, 0, 0))
+for cue, draw_fn in sinchan_viseme_data.items():
+    img = Image.new("RGBA", (sinchan_w, sinchan_h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     # Background skin circle with feathered edges
-    d.ellipse([4, 4, boy_w-4, boy_h-4], fill=BOY_SKIN)
-    draw_fn(d, boy_w//2, boy_h//2)
-    img.save(f"scene_assets/boy/viseme_{cue}.png")
+    d.ellipse([4, 4, sinchan_w-4, sinchan_h-4], fill=SINCHAN_SKIN)
+    draw_fn(d, sinchan_w//2, sinchan_h//2)
+    img.save(f"scene_assets/sinchan/viseme_{cue}.png")
 
-# Boy Blinks
-boy_blink_w, boy_blink_h = 130, 70
-boy_blink_closed = Image.new("RGBA", (boy_blink_w, boy_blink_h), (0, 0, 0, 0))
-bd = ImageDraw.Draw(boy_blink_closed)
+# Sinchan Blinks
+sinchan_blink_w, sinchan_blink_h = 130, 70
+sinchan_blink_closed = Image.new("RGBA", (sinchan_blink_w, sinchan_blink_h), (0, 0, 0, 0))
+bd = ImageDraw.Draw(sinchan_blink_closed)
 # Left eye
-bd.ellipse([24, 18, 58, 58], fill=BOY_SKIN)
-bd.arc([24, 24, 58, 52], start=200, end=340, fill=BOY_LINE, width=4)
+bd.ellipse([24, 18, 58, 58], fill=SINCHAN_SKIN)
+bd.arc([24, 24, 58, 52], start=200, end=340, fill=SINCHAN_LINE, width=4)
 # Right eye
-bd.ellipse([88, 16, 122, 56], fill=BOY_SKIN)
-bd.arc([88, 22, 122, 50], start=200, end=340, fill=BOY_LINE, width=4)
-boy_blink_closed.save("scene_assets/boy/blink_closed.png")
+bd.ellipse([88, 16, 122, 56], fill=SINCHAN_SKIN)
+bd.arc([88, 22, 122, 50], start=200, end=340, fill=SINCHAN_LINE, width=4)
+sinchan_blink_closed.save("scene_assets/sinchan/blink_closed.png")
 
-boy_blink_half = Image.new("RGBA", (boy_blink_w, boy_blink_h), (0, 0, 0, 0))
-bhd = ImageDraw.Draw(boy_blink_half)
-bhd.chord([24, 18, 58, 46], start=180, end=360, fill=BOY_SKIN, outline=BOY_LINE, width=3)
-bhd.chord([88, 16, 122, 44], start=180, end=360, fill=BOY_SKIN, outline=BOY_LINE, width=3)
-boy_blink_half.save("scene_assets/boy/blink_half.png")
+sinchan_blink_half = Image.new("RGBA", (sinchan_blink_w, sinchan_blink_h), (0, 0, 0, 0))
+bhd = ImageDraw.Draw(sinchan_blink_half)
+bhd.chord([24, 18, 58, 46], start=180, end=360, fill=SINCHAN_SKIN, outline=SINCHAN_LINE, width=3)
+bhd.chord([88, 16, 122, 44], start=180, end=360, fill=SINCHAN_SKIN, outline=SINCHAN_LINE, width=3)
+sinchan_blink_half.save("scene_assets/sinchan/blink_half.png")
 
 
 # ----------------------------------------------------

@@ -12,15 +12,15 @@ W, H = scene.size
 base_rest = scene.copy()
 draw = ImageDraw.Draw(base_rest)
 
-# BOY REST MOUTH:
-# In scene_main.jpg, Boy's open mouth is at x: 268 to 290, y: 558 to 582.
+# SINCHAN REST MOUTH:
+# In scene_main.jpg, Sinchan's open mouth is at x: 268 to 290, y: 558 to 582.
 # Sample exact surrounding skin colors
-boy_skin_crop = scene.crop((250, 545, 268, 565))
-boy_skin_avg = np.array(boy_skin_crop).mean(axis=(0,1)).astype(int)
-boy_skin_tuple = (int(boy_skin_avg[0]), int(boy_skin_avg[1]), int(boy_skin_avg[2]), 255)
+sinchan_skin_crop = scene.crop((250, 545, 268, 565))
+sinchan_skin_avg = np.array(sinchan_skin_crop).mean(axis=(0,1)).astype(int)
+sinchan_skin_tuple = (int(sinchan_skin_avg[0]), int(sinchan_skin_avg[1]), int(sinchan_skin_avg[2]), 255)
 
-# Fill boy open mouth with skin
-draw.ellipse([265, 555, 292, 584], fill=boy_skin_tuple)
+# Fill sinchan open mouth with skin
+draw.ellipse([265, 555, 292, 584], fill=sinchan_skin_tuple)
 # Draw cute Shinchan closed smile line
 draw.arc([266, 562, 288, 578], start=20, end=160, fill=(28, 20, 20, 255), width=3)
 
